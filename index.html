@@ -1,106 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<link rel="icon" type="image/png" href="https://gguf.us/logo.png" />
-<title>ggc</title>
-<style>
-  :root {
-    --bg: #ffffff;
-    --text: #000000;
-    --card: #f5f5f5;
-    --border: #ddd;
-    --btn: #e0e0e0;
-  }
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="https://gguf.us/logo.png" />
+  <title>ggc</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --card: #f5f5f5;
+      --border: #ddd;
+      --btn: #e0e0e0;
+    }
 
-  body.dark {
-    --bg: #0f0f0f;
-    --text: #ffffff;
-    --card: #1a1a1a;
-    --border: #333;
-    --btn: #333;
-  }
+    body.dark {
+      --bg: #0f0f0f;
+      --text: #ffffff;
+      --card: #1a1a1a;
+      --border: #333;
+      --btn: #333;
+    }
 
-  body {
-    font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-  .container {
-    width: 600px;
-    text-align: center;
-    position: relative;
-  }
+    .container {
+      width: 600px;
+      text-align: center;
+      position: relative;
+    }
 
-  h1 {
-    margin-bottom: 20px;
-  }
+    h1 {
+      margin-bottom: 20px;
+    }
 
-  .toggle {
-    position: absolute;
-    top: -40px;
-    right: 0;
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 6px;
-    background: var(--btn);
-    border: 1px solid var(--border);
-  }
+    .toggle {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: var(--btn);
+      border: 1px solid var(--permit);
+      border: 1px solid var(--border);
+    }
 
-  .tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
 
-  .tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    background: var(--card);
-    margin: 0 5px;
-    border-radius: 8px;
-    transition: 0.2s;
-  }
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--card);
+      margin: 0 5px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
 
-  .tab.active {
-    background: var(--text);
-    color: var(--bg);
-  }
+    .tab.active {
+      background: var(--text);
+      color: var(--bg);
+    }
 
-  .code-box {
-    position: relative;
-    background: var(--card);
-    padding: 15px;
-    border-radius: 10px;
-    font-family: monospace;
-    text-align: left;
-    word-break: break-all;
-    border: 1px solid var(--border);
-  }
+    .code-box {
+      position: relative;
+      background: var(--card);
+      padding: 15px;
+      border-radius: 10px;
+      font-family: monospace;
+      text-align: left;
+      word-break: break-all;
+      border: 1px solid var(--border);
+    }
 
-  .copy-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: var(--btn);
-    border: none;
-    color: var(--text);
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--btn);
+      border: none;
+      color: var(--text);
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
 
-  .copy-btn:hover {
-    opacity: 0.8;
-  }
-</style>
+    .copy-btn:hover {
+      opacity: 0.8;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      text-decoration: none;
+      color: var(--text);
+      background: var(--btn);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+
+    .download-btn:hover {
+      opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
 
@@ -116,10 +133,10 @@
 
   <div class="code-box">
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-    <code id="installCmd">
-curl -fsSL https://ggc.gguf.org/install.sh | bash
-    </code>
+    <code id="installCmd">curl -fsSL https://ggc.ggub.org/install.sh | bash</code>
   </div>
+
+  <a id="downloadLink" class="download-btn" href="https://ggc.gguf.org/download/editor.dmg">Download GGUF Editor</a>
 </div>
 
 <script>
@@ -129,15 +146,18 @@ curl -fsSL https://ggc.gguf.org/install.sh | bash
   function setOS(os) {
     const codeEl = document.getElementById("installCmd");
     const tabs = document.querySelectorAll(".tab");
+    const downloadLink = document.getElementById("downloadLink");
 
     tabs.forEach(tab => tab.classList.remove("active"));
 
     if (os === "unix") {
       codeEl.textContent = unixCmd;
       tabs[0].classList.add("active");
+      downloadLink.href = "https://ggc.gguf.org/download/editor.dmg";
     } else {
       codeEl.textContent = winCmd;
       tabs[1].classList.add("active");
+      downloadLink.href = "https://ggc.gguf.org/download/editor.exe";
     }
   }
 
